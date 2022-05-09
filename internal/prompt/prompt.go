@@ -20,18 +20,16 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 )
 
-// NewDeleteConfirm creates a prompt to confirm if the entry should be deleted.
-func NewDeleteConfirm(entry string) survey.Prompt {
-	prompt := &survey.Confirm{
-		Message: fmt.Sprintf("Are you sure you want to delete: %s", entry),
-	}
-	return prompt
+// DeleteConfirm creates a prompt to confirm if the entry should be deleted.
+func DeleteConfirm(response *bool, entry string) error {
+	return Confirm(response, "Are you sure you want to delete: %s", entry)
 }
 
-// NewConfirm creates a prompt to confirm if the entry should be deleted.
-func NewConfirm(message string) survey.Prompt {
+// Confirm creates a prompt to confirm if the entry should be deleted.
+func Confirm(response *bool, format string, a ...any) error {
 	prompt := &survey.Confirm{
-		Message: message,
+		Message: fmt.Sprintf(format, a...),
 	}
-	return prompt
+
+	return survey.AskOne(prompt, &response)
 }

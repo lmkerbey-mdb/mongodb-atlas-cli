@@ -68,9 +68,7 @@ func (opts *LiveMigrationsOpts) askDestinationDropConfirm() error {
 		return nil
 	}
 	confirmDrop := false
-	p := prompt.NewConfirm("Are you sure you want to drop the destination collections?")
-
-	if err := survey.AskOne(p, &confirmDrop); err != nil {
+	if err := prompt.Confirm(&confirmDrop, "Are you sure you want to drop the destination collections?"); err != nil {
 		return err
 	}
 

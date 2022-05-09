@@ -18,8 +18,12 @@ import (
 	"errors"
 	"fmt"
 
+<<<<<<< HEAD
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/prompt"
+=======
+	"github.com/mongodb/mongocli/internal/prompt"
+>>>>>>> d3377178 (CLOUDP-120447: Telemetry - Track Events for Interactive Usages)
 )
 
 const (
@@ -86,8 +90,7 @@ func (opts *DeleteOpts) Prompt() error {
 		return nil
 	}
 
-	p := prompt.NewDeleteConfirm(opts.Entry)
-	return survey.AskOne(p, &opts.Confirm)
+	return prompt.DeleteConfirm(&opts.Confirm, opts.Entry)
 }
 
 // PromptWithMessage confirms that the resource should be deleted.
@@ -100,8 +103,8 @@ func (opts *DeleteOpts) PromptWithMessage(message string) error {
 	if opts.Entry != "" {
 		m = fmt.Sprintf(message, opts.Entry)
 	}
-	p := prompt.NewConfirm(m)
-	return survey.AskOne(p, &opts.Confirm)
+
+	return prompt.Confirm(&opts.Confirm, m)
 }
 
 // SuccessMessage gets the set success message or the default value.
