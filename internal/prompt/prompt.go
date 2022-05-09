@@ -33,3 +33,12 @@ func Confirm(response *bool, format string, a ...any) error {
 
 	return survey.AskOne(prompt, &response)
 }
+
+// Password creates a prompt to read a password.
+func Password(response *string, format string, a ...any) error {
+	prompt := &survey.Password{
+		Message: fmt.Sprintf(format, a...),
+	}
+
+	return survey.AskOne(prompt, &response)
+}

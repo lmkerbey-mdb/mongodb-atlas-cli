@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli/require"
@@ -26,6 +27,15 @@ import (
 	"github.com/mongodb/mongodb-atlas-cli/internal/flag"
 	"github.com/mongodb/mongodb-atlas-cli/internal/store"
 	"github.com/mongodb/mongodb-atlas-cli/internal/usage"
+=======
+	"github.com/mongodb/mongocli/internal/cli"
+	"github.com/mongodb/mongocli/internal/cli/require"
+	"github.com/mongodb/mongocli/internal/config"
+	"github.com/mongodb/mongocli/internal/flag"
+	"github.com/mongodb/mongocli/internal/prompt"
+	"github.com/mongodb/mongocli/internal/store"
+	"github.com/mongodb/mongocli/internal/usage"
+>>>>>>> 5886bade (Password)
 	"github.com/spf13/cobra"
 	atlas "go.mongodb.org/atlas/mongodbatlas"
 	"go.mongodb.org/ops-manager/opsmngr"
@@ -168,10 +178,7 @@ func (opts *InviteOpts) Prompt() error {
 		return err
 	}
 
-	prompt := &survey.Password{
-		Message: "Password:",
-	}
-	return survey.AskOne(prompt, &opts.password)
+	return prompt.Password(&opts.password, "Password:")
 }
 
 func splitRole(role string) ([]string, error) {
