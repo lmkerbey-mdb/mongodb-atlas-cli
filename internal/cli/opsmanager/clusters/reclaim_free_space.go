@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli/require"
@@ -26,6 +27,15 @@ import (
 	"github.com/mongodb/mongodb-atlas-cli/internal/flag"
 	"github.com/mongodb/mongodb-atlas-cli/internal/store"
 	"github.com/mongodb/mongodb-atlas-cli/internal/usage"
+=======
+	"github.com/mongodb/mongocli/internal/cli"
+	"github.com/mongodb/mongocli/internal/cli/require"
+	"github.com/mongodb/mongocli/internal/config"
+	"github.com/mongodb/mongocli/internal/flag"
+	"github.com/mongodb/mongocli/internal/prompt"
+	"github.com/mongodb/mongocli/internal/store"
+	"github.com/mongodb/mongocli/internal/usage"
+>>>>>>> 8160a54c (More prompt.Confirm)
 	"github.com/spf13/cobra"
 	"go.mongodb.org/ops-manager/atmcfg"
 )
@@ -78,10 +88,7 @@ func (opts *ReclaimFreeSpaceOpts) Confirm() error {
 		process = fmt.Sprintf("%s (%s)", opts.clusterName, strings.Join(opts.processes, ", "))
 	}
 
-	prompt := &survey.Confirm{
-		Message: fmt.Sprintf("Are you sure you want to reclaim free space for: %s", process),
-	}
-	return survey.AskOne(prompt, &opts.confirm)
+	return prompt.Confirm(&opts.confirm, fmt.Sprintf("Are you sure you want to reclaim free space for: %s", process))
 }
 
 // mongocli cloud-manager cluster(s) reclaimFreeSpace|rfs <clusterName> [--processName process1,process2...][--timestamp timestamp] [--force].

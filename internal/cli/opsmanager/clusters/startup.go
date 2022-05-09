@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli/require"
@@ -27,6 +28,16 @@ import (
 	"github.com/mongodb/mongodb-atlas-cli/internal/search"
 	"github.com/mongodb/mongodb-atlas-cli/internal/store"
 	"github.com/mongodb/mongodb-atlas-cli/internal/usage"
+=======
+	"github.com/mongodb/mongocli/internal/cli"
+	"github.com/mongodb/mongocli/internal/cli/require"
+	"github.com/mongodb/mongocli/internal/config"
+	"github.com/mongodb/mongocli/internal/flag"
+	"github.com/mongodb/mongocli/internal/prompt"
+	"github.com/mongodb/mongocli/internal/search"
+	"github.com/mongodb/mongocli/internal/store"
+	"github.com/mongodb/mongocli/internal/usage"
+>>>>>>> 8160a54c (More prompt.Confirm)
 	"github.com/spf13/cobra"
 	"go.mongodb.org/ops-manager/atmcfg"
 )
@@ -85,10 +96,7 @@ func (opts *StartupOpts) Confirm() error {
 		startupProcess = fmt.Sprintf("%s (%s)", opts.clusterName, strings.Join(opts.processes, ", "))
 	}
 
-	prompt := &survey.Confirm{
-		Message: fmt.Sprintf("Are you sure you want to startup: %s", startupProcess),
-	}
-	return survey.AskOne(prompt, &opts.confirm)
+	return prompt.Confirm(&opts.confirm, fmt.Sprintf("Are you sure you want to startup: %s", startupProcess))
 }
 
 // mongocli cloud-manager cluster(s) startup <clusterName> --process hostname:port,hostname2:port2 --projectId projectId [--force].
