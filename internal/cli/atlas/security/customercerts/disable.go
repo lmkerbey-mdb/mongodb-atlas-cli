@@ -18,11 +18,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli/require"
 	"github.com/mongodb/mongodb-atlas-cli/internal/config"
 	"github.com/mongodb/mongodb-atlas-cli/internal/flag"
+	"github.com/mongodb/mongodb-atlas-cli/internal/prompt"
 	"github.com/mongodb/mongodb-atlas-cli/internal/store"
 	"github.com/mongodb/mongodb-atlas-cli/internal/usage"
 	"github.com/spf13/cobra"
@@ -58,11 +58,7 @@ func (opts *DisableOpts) Run() error {
 }
 
 func (opts *DisableOpts) Prompt() error {
-	prompt := &survey.Confirm{
-		Message: "Are you sure you want to delete the X509 configuration for this project?",
-	}
-
-	return survey.AskOne(prompt, &opts.confirm)
+	return prompt.Confirm(&opts.confirm, "Are you sure you want to delete the X509 configuration for this project?")
 }
 
 // mongocli atlas security certs disable --projectId projectId.

@@ -151,11 +151,8 @@ func (opts *DefaultSetterOpts) AskProject() error {
 		default:
 			_, _ = fmt.Fprintf(opts.OutWriter, "There was an error fetching your projects: %s\n", err)
 		}
-		p := &survey.Confirm{
-			Message: "Do you want to enter the Project ID manually?",
-		}
 		manually := true
-		if err2 := survey.AskOne(p, &manually); err2 != nil {
+		if err2 := prompt.Confirm(&manually, "Do you want to enter the Project ID manually?"); err2 != nil {
 			return err2
 		}
 		if manually {
@@ -195,11 +192,8 @@ func (opts *DefaultSetterOpts) AskOrg() error {
 		default:
 			_, _ = fmt.Fprintf(opts.OutWriter, "There was an error fetching your organizations: %s\n", err)
 		}
-		p := &survey.Confirm{
-			Message: "Do you want to enter the Org ID manually?",
-		}
 		manually := true
-		if err2 := survey.AskOne(p, &manually); err2 != nil {
+		if err2 := prompt.Confirm(&manually, "Do you want to enter the Org ID manually?"); err2 != nil {
 			return err2
 		}
 		if manually {
