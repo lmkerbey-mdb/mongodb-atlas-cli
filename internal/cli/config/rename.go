@@ -17,7 +17,6 @@ package config
 import (
 	"fmt"
 
-	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli/require"
 	"github.com/mongodb/mongodb-atlas-cli/internal/config"
 	"github.com/mongodb/mongodb-atlas-cli/internal/prompt"
@@ -36,8 +35,7 @@ func (opts *RenameOpts) Run() error {
 
 	if config.Exists(opts.newName) {
 		replaceExistingProfile := false
-		p := prompt.NewProfileReplaceConfirm(opts.newName)
-		if err := survey.AskOne(p, &replaceExistingProfile); err != nil {
+		if err := prompt.NewProfileReplaceConfirm(&replaceExistingProfile, opts.newName); err != nil {
 			return err
 		}
 

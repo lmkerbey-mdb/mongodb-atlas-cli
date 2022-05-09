@@ -25,7 +25,6 @@ import (
 	"github.com/mongodb/mongodb-atlas-cli/internal/mongosh"
 	"github.com/mongodb/mongodb-atlas-cli/internal/prompt"
 	"github.com/mongodb/mongodb-atlas-cli/internal/store"
-	"github.com/mongodb/mongodb-atlas-cli/internal/validate"
 	atlas "go.mongodb.org/atlas/mongodbatlas"
 	"go.mongodb.org/ops-manager/opsmngr"
 )
@@ -160,8 +159,7 @@ func (opts *DefaultSetterOpts) AskProject() error {
 			return err2
 		}
 		if manually {
-			p := prompt.NewProjectIDInput()
-			return survey.AskOne(p, &opts.ProjectID, survey.WithValidator(validate.OptionalObjectID))
+			return prompt.ProjectID(&opts.ProjectID)
 		}
 		_, _ = fmt.Fprint(opts.OutWriter, "Skipping default project setting\n")
 		return nil
@@ -170,9 +168,8 @@ func (opts *DefaultSetterOpts) AskProject() error {
 	if len(pSlice) == 1 {
 		opts.ProjectID = pMap[pSlice[0]]
 	} else {
-		p := prompt.NewProjectSelect(pSlice)
 		var projectID string
-		if err := survey.AskOne(p, &projectID); err != nil {
+		if err := prompt.ProjectSelect(&projectID, pSlice); err != nil {
 			return err
 		}
 		opts.ProjectID = pMap[projectID]
@@ -206,8 +203,7 @@ func (opts *DefaultSetterOpts) AskOrg() error {
 			return err2
 		}
 		if manually {
-			p := prompt.NewOrgIDInput()
-			return survey.AskOne(p, &opts.OrgID, survey.WithValidator(validate.OptionalObjectID))
+			return prompt.OrgID(&opts.OrgID)
 		}
 		_, _ = fmt.Fprint(opts.OutWriter, "Skipping default organization setting\n")
 		return nil
@@ -216,9 +212,8 @@ func (opts *DefaultSetterOpts) AskOrg() error {
 	if len(oSlice) == 1 {
 		opts.OrgID = oMap[oSlice[0]]
 	} else {
-		p := prompt.NewOrgSelect(oSlice)
 		var orgID string
-		if err := survey.AskOne(p, &orgID); err != nil {
+		if err := prompt.OrgSelect(&orgID, oSlice); err != nil {
 			return err
 		}
 		opts.OrgID = oMap[orgID]

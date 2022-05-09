@@ -22,7 +22,7 @@ import (
 	"github.com/mongodb/mongodb-atlas-cli/internal/validate"
 )
 
-func NewOMURLInput() survey.Prompt {
+func newOMURLInput() survey.Prompt {
 	return &survey.Input{
 		Message: "URL to Access Ops Manager:",
 		Help:    "FQDN and port number of the Ops Manager Application.",
@@ -30,7 +30,11 @@ func NewOMURLInput() survey.Prompt {
 	}
 }
 
-func NewOrgIDInput() survey.Prompt {
+func OrgID(response any) error {
+	return survey.AskOne(newOrgIDInput(), response, survey.WithValidator(validate.OptionalObjectID))
+}
+
+func newOrgIDInput() survey.Prompt {
 	return &survey.Input{
 		Message: "Default Org ID:",
 		Help:    "ID of an existing organization that your API keys have access to. If you don't enter an ID, you must use --orgId for every command that requires it.",
@@ -38,7 +42,11 @@ func NewOrgIDInput() survey.Prompt {
 	}
 }
 
-func NewProjectIDInput() survey.Prompt {
+func ProjectID(response any) error {
+	return survey.AskOne(newProjectIDInput(), response, survey.WithValidator(validate.OptionalObjectID))
+}
+
+func newProjectIDInput() survey.Prompt {
 	return &survey.Input{
 		Message: "Default Project ID:",
 		Help:    "ID of an existing project that your API keys have access to. If you don't enter an ID, you must use --projectId for every command that requires it.",
@@ -73,7 +81,7 @@ func AccessQuestions(isOM bool) []*survey.Question {
 		omQuestions := []*survey.Question{
 			{
 				Name:     "opsManagerURL",
-				Prompt:   NewOMURLInput(),
+				Prompt:   newOMURLInput(),
 				Validate: validate.OptionalURL,
 			},
 		}
@@ -86,12 +94,12 @@ func TenantQuestions() []*survey.Question {
 	q := []*survey.Question{
 		{
 			Name:     "projectId",
-			Prompt:   NewProjectIDInput(),
+			Prompt:   newProjectIDInput(),
 			Validate: validate.OptionalObjectID,
 		},
 		{
 			Name:     "orgId",
-			Prompt:   NewOrgIDInput(),
+			Prompt:   newOrgIDInput(),
 			Validate: validate.OptionalObjectID,
 		},
 	}
@@ -99,25 +107,24 @@ func TenantQuestions() []*survey.Question {
 }
 
 // NewProfileReplaceConfirm creates a prompt to confirm if an existing profile should be replaced.
-func NewProfileReplaceConfirm(entry string) survey.Prompt {
-	prompt := &survey.Confirm{
-		Message: fmt.Sprintf("There is already a profile called %s.\nDo you want to replace it?", entry),
-	}
-	return prompt
+func NewProfileReplaceConfirm(response *bool, entry string) error {
+	return Confirm(response, fmt.Sprintf("There is already a profile called %s.\nDo you want to replace it?", entry))
 }
 
-// NewOrgSelect create a prompt to choice the organization.
-func NewOrgSelect(options []string) survey.Prompt {
-	return &survey.Select{
+// OrgSelect create a prompt to choice the organization.
+func OrgSelect(response any, options []string) error {
+	p := &survey.Select{
 		Message: "Choose a default organization:",
 		Options: options,
 	}
+	return survey.AskOne(p, response)
 }
 
-// NewProjectSelect create a prompt to choice the project.
-func NewProjectSelect(options []string) survey.Prompt {
-	return &survey.Select{
+// ProjectSelect create a prompt to choice the project.
+func ProjectSelect(response any, options []string) error {
+	p := &survey.Select{
 		Message: "Choose a default project:",
 		Options: options,
 	}
+	return survey.AskOne(p, response)
 }
