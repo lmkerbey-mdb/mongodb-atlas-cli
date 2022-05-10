@@ -18,12 +18,7 @@ import (
 	"errors"
 	"fmt"
 
-<<<<<<< HEAD
-	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/prompt"
-=======
-	"github.com/mongodb/mongocli/internal/prompt"
->>>>>>> d3377178 (CLOUDP-120447: Telemetry - Track Events for Interactive Usages)
 )
 
 const (

@@ -18,18 +18,10 @@ import (
 	"errors"
 	"fmt"
 
-<<<<<<< HEAD
-	"github.com/AlecAivazis/survey/v2"
 	"github.com/mongodb/mongodb-atlas-cli/internal/cli"
 	"github.com/mongodb/mongodb-atlas-cli/internal/flag"
 	"github.com/mongodb/mongodb-atlas-cli/internal/prompt"
 	"github.com/mongodb/mongodb-atlas-cli/internal/usage"
-=======
-	"github.com/mongodb/mongocli/internal/cli"
-	"github.com/mongodb/mongocli/internal/flag"
-	"github.com/mongodb/mongocli/internal/prompt"
-	"github.com/mongodb/mongocli/internal/usage"
->>>>>>> 5886bade (Password)
 	"github.com/spf13/cobra"
 	"go.mongodb.org/atlas/mongodbatlas"
 )
